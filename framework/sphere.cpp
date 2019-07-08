@@ -11,7 +11,7 @@ Sphere::Sphere(glm::vec3 mp, float r):
     mp_{mp},
     radius_{r}{}
 
-Sphere::Sphere(glm::vec3 mp, float r, std::string const& name_, Color const& c):
+Sphere::Sphere(glm::vec3 mp, float r, std::string const& name_, std::shared_ptr<Material> const& color_):
     Shape(name_, color_),
     mp_{mp},
     radius_{r}{}
@@ -34,9 +34,10 @@ std::ostream& Sphere::print(std::ostream& os)const{
     return os;
 }
 
-bool Sphere::intersect(Ray const& ray, float& t){
+HitPoint Sphere::intersect(Ray const& ray, float& t){
     bool test;
     test=glm::intersectRaySphere(ray.origin,glm::normalize(ray.direction),mp_,radius_*radius_,t);
     HitPoint result{test, t, name_, color_, ray.origin, ray.direction};
-    return test;
+    return result;
+
 }

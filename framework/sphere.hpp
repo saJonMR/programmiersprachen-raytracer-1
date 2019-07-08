@@ -12,11 +12,11 @@ class Sphere : public Shape{
     public:
     Sphere();
     Sphere(glm::vec3 mp, float r);
-    Sphere(glm::vec3 mp, float r, std::string const& name_, Color const& color_);
+    Sphere(glm::vec3 mp, float r, std::string const& name_, std::shared_ptr<Material> const& color_);
     float area() const override;
     float volume() const override;
     std::ostream& print(std::ostream& os)const override;
-    bool intersect(Ray const& ray, float& t)override;
+    HitPoint intersect(Ray const& ray, float& t)override;
     ~Sphere()override{std::cout<<std::endl<<"SPHERE DEKUNSTRUKTOR VON: "<<name_<<std::endl;}
 
 };

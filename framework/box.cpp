@@ -11,7 +11,7 @@ Box::Box(glm::vec3 min, glm::vec3 max):
     max_{max}{}
 
 
-Box::Box(glm::vec3 min, glm::vec3 max, std::string const& name_, Color const& color_) :
+Box::Box(glm::vec3 min, glm::vec3 max, std::string const& name_, std::shared_ptr<Material> const& color_) :
     Shape(name_, color_),
     min_{min},
     max_{max}{}
@@ -35,18 +35,19 @@ std::ostream& Box::print(std::ostream& os)const{
     " Maxpunkt: "<<"X:"<<max_.x<<", Y:"<<max_.y<<", Z:"<<max_.z<<std::endl<<std::endl;
     return os;
 }
-bool Box::intersect(Ray const& ray, float& t){
+HitPoint Box::intersect(Ray const& ray, float& t){
     float r = (min_.x - ray.origin.x)/ray.direction.x;
-    bool result = false;
-    if(t<r){
-        return result;
-    }
+    bool test = false;
     float py = ray.origin.y + r * ray.direction.y;
     float pz = ray.origin.z + r * ray.direction.z;
     if(min_.y<=py && py<=max_.y){
         if(min_.z<=pz && pz<=max_.z){
-            result=true;
+            test=true;
         }
     }
+    if(t<r){
+        test= false;
+    }
+    HitPoint result{test, t, name_, color_, ray.origin, ray.direction};
     return result;
 }

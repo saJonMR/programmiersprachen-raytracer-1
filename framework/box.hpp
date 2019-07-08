@@ -5,6 +5,9 @@
 #include<catch.hpp>
 #include<ray.hpp>
 #include<hitpoint.hpp>
+#include<material.hpp>
+#include <iostream>
+
 class Box : public Shape{
     private:
     glm::vec3 min_;
@@ -12,12 +15,12 @@ class Box : public Shape{
     public:
     Box();
     Box(glm::vec3 min, glm::vec3 max);
-    Box(glm::vec3 min, glm::vec3 max, std::string const& name_, Color const& color_);
+    Box(glm::vec3 min, glm::vec3 max, std::string const& name_, std::shared_ptr<Material> const& color_);
     //Box(std::string const& name_, glm::vec3 min, glm::vec3 max);
     float area() const override;
     float volume() const override;
     std::ostream& print(std::ostream& os)const override;
-    bool intersect(Ray const& ray, float& t)override;
+    HitPoint intersect(Ray const& ray, float& t)override;
     ~Box()override{std::cout<<std::endl<<"BOX DEKUNSTRUKTOR VON: "<<name_<<std::endl;}
 };
 #endif
