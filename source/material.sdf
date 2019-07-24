@@ -1,0 +1,5 @@
+define material red 1 0 0 1 0 0 1 0 0 20
+define material green 0 1 0 0 1 0 0 1 0 50
+define material blue 0 0 1 0 0 1 0 0 1 10
+define shape sphere Kugel 0 0 0 420 red
+define shape box Kasten 0 0 0 100 100 100 blue
