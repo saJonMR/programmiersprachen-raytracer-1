@@ -23,9 +23,4 @@ target_link_libraries(tests
   ${GLFW_LIBRARIES}
   )
 
-add_executable(main
-  main.cpp)
-target_link_libraries(main
-  ${FRAMEWORK_NAME}
-  ${GLFW_LIBRARIES}
-  )
+

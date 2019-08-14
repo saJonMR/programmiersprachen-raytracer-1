@@ -35,8 +35,7 @@ std::ostream& Sphere::print(std::ostream& os)const{
 }
 
 HitPoint Sphere::intersect(Ray const& ray, float& t){
-    bool test;
-    test=glm::intersectRaySphere(ray.origin,glm::normalize(ray.direction),mp_,radius_*radius_,t);
+    bool test = glm::intersectRaySphere(ray.origin,glm::normalize(ray.direction),mp_,radius_*radius_,t);
     HitPoint result{test, t, name_, color_, ray.origin, ray.direction};
     return result;
 

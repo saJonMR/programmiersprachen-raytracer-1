@@ -15,7 +15,7 @@ class Shape{
     Shape(std::string name, std::shared_ptr<Material> c);
     virtual ~Shape(){std::cout<<std::endl<<"SHAPE DEKUNSTRUKTOR VON: "<<name_<<std::endl;}
     virtual HitPoint intersect(Ray const& ray, float& t)=0;
-    protected:
+    //protected?
     std::string name_;
     std::shared_ptr<Material> color_;
 };

@@ -9,17 +9,17 @@
 
 #ifndef BUW_RENDERER_HPP
 #define BUW_RENDERER_HPP
-
 #include "color.hpp"
 #include "pixel.hpp"
 #include "ppmwriter.hpp"
 #include <string>
 #include <glm/glm.hpp>
-
+#include "scene.hpp"
+#include "hitpoint.hpp"
 class Renderer
 {
 public:
-  Renderer(unsigned w, unsigned h, std::string const& file);
+  Renderer(unsigned w, unsigned h, std::string const& file, Scene my_Scene);
 
   void render();
   void write(Pixel const& p);
@@ -35,6 +35,7 @@ private:
   std::vector<Color> color_buffer_;
   std::string filename_;
   PpmWriter ppm_;
+  Scene s_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP

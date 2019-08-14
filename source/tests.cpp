@@ -6,6 +6,7 @@
 #include "sphere.hpp"
 #include "color.hpp"
 #include "scene.hpp"
+#include "scene.cpp"
 #include <string>
 #include <sstream>
 TEST_CASE ("rec", "[rec]"){
@@ -87,7 +88,7 @@ TEST_CASE ("squareint", "[intersect]"){
 }
 TEST_CASE ("tostruc", "[tostruc]"){
   std::string path = "/home/vincent/Dokumente/programmiersprachen-raytracer/source/material.sdf";
-  Scene S {create(path)};
+  Scene S {createscene(path)};
 }
 int main(int argc, char *argv[])
 {

@@ -6,10 +6,10 @@
 #include<ray.hpp>
 #include<hitpoint.hpp>
 class Sphere : public Shape{
-    private:
+    public:
+    //private?
     glm::vec3 mp_;
     float radius_;
-    public:
     Sphere();
     Sphere(glm::vec3 mp, float r);
     Sphere(glm::vec3 mp, float r, std::string const& name_, std::shared_ptr<Material> const& color_);

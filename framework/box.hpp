@@ -9,10 +9,10 @@
 #include <iostream>
 
 class Box : public Shape{
-    private:
+    public:
+
     glm::vec3 min_;
     glm::vec3 max_;
-    public:
     Box();
     Box(glm::vec3 min, glm::vec3 max);
     Box(glm::vec3 min, glm::vec3 max, std::string const& name_, std::shared_ptr<Material> const& color_);

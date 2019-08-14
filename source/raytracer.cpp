@@ -5,20 +5,33 @@
 #include <thread>
 #include <utility>
 #include <cmath>
-
+#include "shape.hpp"
+#include <glm/vec3.hpp>
+#include "box.hpp"
+#include "sphere.hpp"
+#include "color.hpp"
+#include "scene.hpp"
+#include <string>
+#include "scene.cpp"
 int main(int argc, char* argv[])
 {
+  
+
+  std::string path = "/home/vincent/Dokumente/programmiersprachen-raytracer/source/material.sdf";
+  Scene S {createscene(path)};
+
+
+
+
+
   unsigned const image_width = 800;
   unsigned const image_height = 600;
-  std::string const filename = "./checkerboard.ppm";
+  std::string const filename = "./myfirst.ppm";
 
-  Renderer renderer{image_width, image_height, filename};
-
+  Renderer renderer{image_width, image_height, filename, S};
   //create separate thread to see updates of pixels while rendering
   std::thread render_thread([&renderer]() {renderer.render();});
-
   Window window{{image_width, image_height}};
-
   while (!window.should_close()) {
     if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
       window.close();
