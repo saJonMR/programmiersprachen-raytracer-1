@@ -20,14 +20,11 @@
 struct Scene{
     public:
     std::vector<std::shared_ptr<Material>> materialvec;
-    std::vector<std::shared_ptr<Sphere>> spherevec;
-    std::vector<std::shared_ptr<Box>> boxvec;
+    std::vector<std::shared_ptr<Shape>> shapevec;
     std::vector<std::shared_ptr<Camera>> camvec;
     std::vector<std::shared_ptr<Lichtquelle>> lichtvec;
     int res_x, res_y;
     std::shared_ptr<Material> findmat(std::string name_);
-    Sphere makesphere(float number);
-    Box makebox(float number);
     
 };
 Scene createscene(std::string path_string);

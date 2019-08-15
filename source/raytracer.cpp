@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 {
   
 
-  std::string path = "/home/vincent/Dokumente/programmiersprachen-raytracer/source/material.sdf";
+  std::string path = "../../source/material.sdf";
   Scene S {createscene(path)};
 
 
@@ -30,7 +30,10 @@ int main(int argc, char* argv[])
 
   Renderer renderer{image_width, image_height, filename, S};
   //create separate thread to see updates of pixels while rendering
-  std::thread render_thread([&renderer]() {renderer.render();});
+  //std::thread render_thread([&renderer]() {renderer.render();});
+  
+  renderer.render();
+  
   Window window{{image_width, image_height}};
   while (!window.should_close()) {
     if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -40,6 +43,6 @@ int main(int argc, char* argv[])
   }
 
   //"join" threads, i.e. synchronize main thread with render_thread
-  render_thread.join();
+  //render_thread.join();
   return 0;
 }

@@ -14,24 +14,11 @@ std::shared_ptr<Material> Scene::findmat(std::string name_){
     return nullptr;
 }
 
-Sphere Scene::makesphere(float number){
-    
-    std::shared_ptr<Sphere> my_pointer = spherevec[number];
-    Sphere result {my_pointer->mp_,my_pointer->radius_,my_pointer->name_, my_pointer->color_ };
-    return result;
-}
 
-Box Scene::makebox(float number){
-    std::shared_ptr<Box> my_pointer = boxvec[number];
-    Box result {my_pointer->min_, my_pointer->max_, my_pointer->name_, my_pointer->color_};
-    return result;
-}
 
 
 Scene createscene(std::string path_string) {
     std::vector<std::shared_ptr<Material>> material_vec;
-    std::vector<std::shared_ptr<Sphere>> sphere_vec;
-    std::vector<std::shared_ptr<Box>> box_vec;
     std::vector<std::shared_ptr<Camera>> cam_vec;
     std::vector<std::shared_ptr<Lichtquelle>> licht_vec;
     Scene my_Scene{};
@@ -68,8 +55,7 @@ Scene createscene(std::string path_string) {
                 line_string_stream >>m;
                 std::cout<<"Farbe: "<<material_name<<std::endl<<c1<<c2<<c3<<std::endl;
                 std::shared_ptr<Material> pointer_material = std::make_shared<Material>(Material {material_name, c1, c2, c3, m});
-                material_vec.push_back(pointer_material);
-                my_Scene.materialvec = material_vec;
+                my_Scene.materialvec.push_back(pointer_material);
             }
 
             if("shape" == identifier){
@@ -90,10 +76,8 @@ Scene createscene(std::string path_string) {
 
                     sphere_mat = my_Scene.findmat(material_name);
                     glm::vec3 mp{vec_x, vec_y, vec_z};
-                    std::shared_ptr<Sphere> pointer_sphere = std::make_shared<Sphere>(Sphere{mp, sphere_radius, sphere_name, sphere_mat});
-                    sphere_vec.push_back(pointer_sphere);
-                    my_Scene.spherevec = sphere_vec;
-
+                    std::shared_ptr<Shape> pointer_sphere = std::make_shared<Sphere>(Sphere{mp, sphere_radius, sphere_name, sphere_mat});
+                    my_Scene.shapevec.push_back(pointer_sphere);
                 }
                 
                 if("box" == identifier){
@@ -114,9 +98,8 @@ Scene createscene(std::string path_string) {
                     box_mat = my_Scene.findmat(material_name);
                     glm::vec3 p1{min_x, min_y, min_z};
                     glm::vec3 p2{max_x, max_y, max_z};
-                    std::shared_ptr<Box> pointer_box = std::make_shared<Box>(Box{p1, p2, box_name, box_mat});
-                    box_vec.push_back(pointer_box);
-                    my_Scene.boxvec = box_vec;
+                    std::shared_ptr<Shape> pointer_box = std::make_shared<Box>(Box{p1, p2, box_name, box_mat});
+                    my_Scene.shapevec.push_back(pointer_box);
                 }
             }
             if("light" == identifier){
@@ -135,8 +118,7 @@ Scene createscene(std::string path_string) {
                 glm::vec3 pos{pos_x, pos_y, pos_z};
                 Color color{c_red, c_green, c_blue};
                 std::shared_ptr<Lichtquelle> pointer_cam = std::make_shared<Lichtquelle>(Lichtquelle{licht_name, pos, color,brightness});
-                licht_vec.push_back(pointer_cam);
-                my_Scene.lichtvec = licht_vec;
+                my_Scene.lichtvec.push_back(pointer_cam);
             }
             if("camera" == identifier){
                 std::string cam_name;
@@ -146,8 +128,7 @@ Scene createscene(std::string path_string) {
                 line_string_stream >> degree;
                 
                 std::shared_ptr<Camera> pointer_cam = std::make_shared<Camera>(Camera{cam_name, degree});
-                cam_vec.push_back(pointer_cam);
-                my_Scene.camvec = cam_vec;
+                my_Scene.camvec.push_back(pointer_cam);
             }
         }
         if("render" == identifier){
