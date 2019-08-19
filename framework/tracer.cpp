@@ -17,8 +17,8 @@ Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
     Ray Raymond {origin, raydirection};
     float raydist = 5000.f;
     Color c;
-    if(S.shapevec[0]->intersect(Raymond, raydist).cut_){
-        c = S.shapevec[0]->intersect(Raymond, raydist).color_->ka;
+    if(S.shapevec[1]->intersect(Raymond, raydist).cut_){
+        c = S.shapevec[1]->intersect(Raymond, raydist).color_->ka;
         std::cout<<"HIT"<<std::endl;
     }
     else{
