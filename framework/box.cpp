@@ -150,6 +150,6 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     }
     
 
-    HitPoint result{test, orig_t, name_, color_, ray.origin, ray.direction};
+    HitPoint result{test, fabs(orig_t), name_, color_, ray.origin, ray.direction};
     return result;
 }
