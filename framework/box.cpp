@@ -37,8 +37,6 @@ std::ostream& Box::print(std::ostream& os)const{
 }
 HitPoint Box::intersect(Ray const& ray, float& t){
     bool test = false;
-    float orig_t, final_t, final_r, final_d;
-    orig_t = t;
     float t_x = (min_.x - ray.origin.x)/ray.direction.x;        //min x Ebene Sp
     float p1y = ray.origin.y + t_x * ray.direction.y;
     float p1z = ray.origin.z + t_x * ray.direction.z;
@@ -66,22 +64,25 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     float r_z = (max_.z - ray.origin.z)/ray.direction.z;        //max y Ebene Sp
     float p6x = ray.origin.x + r_z * ray.direction.x;
     float p6y = ray.origin.y + r_z * ray.direction.y;
-
+    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten = {0.f, 0.f, 0.f};
 
     // Teste der min x, y, z Ebenen
     if(min_.y<=p1y && p1y<=max_.y){
         if(min_.z<=p1z && p1z<=max_.z){
             test=true;
+            Links={min_.x, p1y, p1z};
         }
     }
     if(min_.x<=p2x&& p2x<=max_.x){
         if(min_.z<=p2z && p2z<=max_.z){
             test=true;
+            Unten={p2x, min_.y, p2z};
         }
     }
-    if(min_.x<=p3x && p3x<=max_.x){
+    if(min_.x<=p3x && p3x<=max_.x){     //Vorne
         if(min_.y<=p3y && p3y<=max_.y){
             test=true;
+            Vorne={p3x, p3y, min_.z};
         }
     }
 
@@ -89,67 +90,52 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     if(min_.y<=p4y && p4y<=max_.y){
         if(min_.z<=p4z && p4z<=max_.z){
             test=true;
+            Rechts={max_.x, p4y, p4z};
         }
     }
     if(min_.x<=p5x&& p5x<=max_.x){
         if(min_.z<=p5z && p5z<=max_.z){
             test=true;
+            Oben={p5x, max_.y, p5z};
         }
     }
     if(min_.x<=p6x && p6x<=max_.x){
         if(min_.y<=p6y && p6y<=max_.y){
             test=true;
+            Hinten={p6x, p6y, max_.z};
         }
     }
-
-
-    if(test){               //wenn geschnitten, kürzester min x,y,z weg ermitteln
-        if(t_x<t_z){
-            if(t_x<t_y){
-                final_t=t_x;
-            }
-            else{
-                final_t = t_y;
-            }
-        }
-        else{
-            if(t_z<t_y){
-                final_t = t_z;
-            }
-            else{
-                final_t = t_y;
-            }
-        }
-        
-    }
-    if(test){               //wenn geschnitten, kürzester max x,y,z weg ermitteln
-        if(r_x<r_z){
-            if(r_x<r_y){
-                final_r = r_x;
-            }
-            else{
-                final_r = r_y;
-            }
-        }
-        else{
-            if(r_z<r_y){
-                final_r = r_z;
-            }
-            else{
-                final_r = r_y;
-            }
-        }
-        
-    }
-
-    if(final_r<final_t){        //Zwischen Distanz von min und max x,y,z ermittelt
-        orig_t = final_r;          //kürzeste wird vom Hitpoint wiedergegeben
+    float distanceL = sqrt(pow((ray.origin.x - Links.x), 2)+ pow((ray.origin.y - Links.y), 2) + pow((ray.origin.z - Links.z), 2));
+    float distanceR = sqrt(pow((ray.origin.x - Rechts.x), 2)+ pow((ray.origin.y - Rechts.y), 2) + pow((ray.origin.z - Rechts.z), 2));
+    float distanceO = sqrt(pow((ray.origin.x - Oben.x), 2)+ pow((ray.origin.y - Oben.y), 2) + pow((ray.origin.z - Oben.z), 2));
+    float distanceU = sqrt(pow((ray.origin.x - Unten.x), 2)+ pow((ray.origin.y - Unten.y), 2) + pow((ray.origin.z - Unten.z), 2));
+    float distanceV = sqrt(pow((ray.origin.x - Vorne.x), 2)+ pow((ray.origin.y - Vorne.y), 2) + pow((ray.origin.z - Vorne.z), 2));
+    float distanceH = sqrt(pow((ray.origin.x - Hinten.x), 2)+ pow((ray.origin.y - Hinten.y), 2) + pow((ray.origin.z - Hinten.z), 2));
+    float finaldistance = 0.f;
+    if(distanceL < distanceR){
+        finaldistance = distanceL;
     }
     else{
-        orig_t = final_t;
+        finaldistance = distanceR;
     }
+    if(distanceO < finaldistance){
+        finaldistance = distanceO;
+    }
+    if(distanceU < finaldistance){
+        finaldistance = distanceU;
+    }
+    if(distanceV < finaldistance){
+        finaldistance = distanceV;
+    }
+    if(distanceH < finaldistance){
+        finaldistance = distanceH;
+    }
+
+
+
+
     
 
-    HitPoint result{test, orig_t, name_, color_, ray.origin, ray.direction};
+    HitPoint result{test, finaldistance, name_, color_, ray.origin, ray.direction};
     return result;
 }

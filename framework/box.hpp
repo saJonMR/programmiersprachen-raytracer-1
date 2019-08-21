@@ -7,6 +7,7 @@
 #include<hitpoint.hpp>
 #include<material.hpp>
 #include <iostream>
+#include <cmath>
 
 class Box : public Shape{
     public:
