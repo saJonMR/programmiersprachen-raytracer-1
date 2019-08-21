@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "renderer.hpp"
+#include "tracer.hpp"
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene my_Scene)
   : width_(w)

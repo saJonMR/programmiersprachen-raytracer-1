@@ -16,18 +16,30 @@ Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
     float raydist = 5000.f;
     Color c {0.f, 0.f, 0.f};
     float mindistance = 10000;
-    std::shared_ptr<Shape> minvec;
-    std::vector<float> minimum{};
-    for(int i=0; i<S.shapevec.size(); i++){
-        if(S.shapevec[i]->intersect(Raymond, raydist).cut_){
-        minimum.push_back(S.shapevec[i]->intersect(Raymond, raydist).distance_);
-    }
-    float mindistance = *std::min_element(minimum.begin(), minimum.begin());
-    for(int i=0; i<S.shapevec.size(); i++){
-        if(S.shapevec[i]->intersect(Raymond, raydist).distance_ == mindistance){
-            c = S.shapevec[i]->intersect(Raymond, raydist).color_->ka;
+    std::shared_ptr<Shape> circle = S.shapevec[1];
+    std::shared_ptr<Shape> box = S.shapevec[0];
+    
+    if(circle->intersect(Raymond, raydist).cut_){
+        if(box->intersect(Raymond, raydist).cut_){
+            if(circle->intersect(Raymond, raydist).distance_< box->intersect(Raymond, raydist).distance_){
+                c = circle->intersect(Raymond, raydist).color_->ka;  
+            }
+        }
+        else{
+            c = circle->intersect(Raymond, raydist).color_->ka;
         }
     }
+    if(box->intersect(Raymond, raydist).cut_){
+        if(circle->intersect(Raymond, raydist).cut_){
+            if(box->intersect(Raymond, raydist).distance_< circle->intersect(Raymond, raydist).distance_){
+                c = box->intersect(Raymond, raydist).color_->ka;
+            }
+        }
+        else{
+            c = box->intersect(Raymond, raydist).color_->ka;
+        }
+    }
+    
     return c;
 }
 #endif
