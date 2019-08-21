@@ -64,22 +64,22 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     float r_z = (max_.z - ray.origin.z)/ray.direction.z;        //max y Ebene Sp
     float p6x = ray.origin.x + r_z * ray.direction.x;
     float p6y = ray.origin.y + r_z * ray.direction.y;
-    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten = {0.f, 0.f, 0.f};
+    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten = {10000,10000,10000};
 
     // Teste der min x, y, z Ebenen
     if(min_.y<=p1y && p1y<=max_.y){
-        if(min_.z<=p1z && p1z<=max_.z){
+        if(min_.z <= p1z && p1z<=max_.z){
             test=true;
             Links={min_.x, p1y, p1z};
         }
     }
-    if(min_.x<=p2x&& p2x<=max_.x){
+    if(min_.x <= p2x && p2x<=max_.x){
         if(min_.z<=p2z && p2z<=max_.z){
             test=true;
             Unten={p2x, min_.y, p2z};
         }
     }
-    if(min_.x<=p3x && p3x<=max_.x){     //Vorne
+    if(min_.x <= p3x && p3x<=max_.x){     //Vorne
         if(min_.y<=p3y && p3y<=max_.y){
             test=true;
             Vorne={p3x, p3y, min_.z};
@@ -87,19 +87,19 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     }
 
     //Teste der max x, y, z Ebenen
-    if(min_.y<=p4y && p4y<=max_.y){
+    if(min_.y <= p4y && p4y<=max_.y){
         if(min_.z<=p4z && p4z<=max_.z){
             test=true;
             Rechts={max_.x, p4y, p4z};
         }
     }
-    if(min_.x<=p5x&& p5x<=max_.x){
+    if(min_.x <= p5x&& p5x<=max_.x){
         if(min_.z<=p5z && p5z<=max_.z){
             test=true;
             Oben={p5x, max_.y, p5z};
         }
     }
-    if(min_.x<=p6x && p6x<=max_.x){
+    if(min_.x <= p6x && p6x<=max_.x){
         if(min_.y<=p6y && p6y<=max_.y){
             test=true;
             Hinten={p6x, p6y, max_.z};
@@ -111,28 +111,45 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     float distanceU = sqrt(pow((ray.origin.x - Unten.x), 2)+ pow((ray.origin.y - Unten.y), 2) + pow((ray.origin.z - Unten.z), 2));
     float distanceV = sqrt(pow((ray.origin.x - Vorne.x), 2)+ pow((ray.origin.y - Vorne.y), 2) + pow((ray.origin.z - Vorne.z), 2));
     float distanceH = sqrt(pow((ray.origin.x - Hinten.x), 2)+ pow((ray.origin.y - Hinten.y), 2) + pow((ray.origin.z - Hinten.z), 2));
-    float finaldistance = 0.f;
-    if(distanceL < distanceR){
-        finaldistance = distanceL;
-    }
-    else{
-        finaldistance = distanceR;
-    }
-    if(distanceO < finaldistance){
-        finaldistance = distanceO;
-    }
-    if(distanceU < finaldistance){
-        finaldistance = distanceU;
-    }
-    if(distanceV < finaldistance){
-        finaldistance = distanceV;
-    }
-    if(distanceH < finaldistance){
-        finaldistance = distanceH;
+    float finaldistance = 1.f;
+    
+    if(test){
+        if(distanceL == distanceR == distanceO == distanceU == distanceV == distanceH){
+            std::cout<<"Fehler1"<<std::endl;
+
+        }
+
+        if(Links.x == Rechts.x == Oben.x == Unten.x == Vorne.x == Hinten.x){
+            
+        }
+
+        if(distanceL < distanceR){
+            finaldistance = distanceL;
+        }
+        if(distanceR < distanceL){
+            finaldistance = distanceR;
+        }
+        if(distanceO < distanceR){
+            finaldistance = distanceO;
+        }
+        if(distanceU < distanceO){
+            finaldistance = distanceU;
+        }
+        if(distanceV < distanceU){
+            finaldistance = distanceV;
+        }
+        if(distanceH < distanceV){
+            finaldistance = distanceH;
+        }
+        if(finaldistance = 1.f){
+            std::cout<<"Fehler3"<<std::endl;
+        }
     }
 
-
-
+    if(test){
+        finaldistance = 1.f;
+        std::cout<<"Fehler2"<<std::endl;
+    }
 
     
 
