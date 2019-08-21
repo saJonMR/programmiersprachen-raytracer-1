@@ -64,7 +64,7 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     float r_z = (max_.z - ray.origin.z)/ray.direction.z;        //max y Ebene Sp
     float p6x = ray.origin.x + r_z * ray.direction.x;
     float p6y = ray.origin.y + r_z * ray.direction.y;
-    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten = {10000,10000,10000};
+    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten;
 
     // Teste der min x, y, z Ebenen
     if(min_.y<=p1y && p1y<=max_.y){
@@ -105,54 +105,21 @@ HitPoint Box::intersect(Ray const& ray, float& t){
             Hinten={p6x, p6y, max_.z};
         }
     }
-    float distanceL = sqrt(pow((ray.origin.x - Links.x), 2)+ pow((ray.origin.y - Links.y), 2) + pow((ray.origin.z - Links.z), 2));
-    float distanceR = sqrt(pow((ray.origin.x - Rechts.x), 2)+ pow((ray.origin.y - Rechts.y), 2) + pow((ray.origin.z - Rechts.z), 2));
-    float distanceO = sqrt(pow((ray.origin.x - Oben.x), 2)+ pow((ray.origin.y - Oben.y), 2) + pow((ray.origin.z - Oben.z), 2));
-    float distanceU = sqrt(pow((ray.origin.x - Unten.x), 2)+ pow((ray.origin.y - Unten.y), 2) + pow((ray.origin.z - Unten.z), 2));
-    float distanceV = sqrt(pow((ray.origin.x - Vorne.x), 2)+ pow((ray.origin.y - Vorne.y), 2) + pow((ray.origin.z - Vorne.z), 2));
-    float distanceH = sqrt(pow((ray.origin.x - Hinten.x), 2)+ pow((ray.origin.y - Hinten.y), 2) + pow((ray.origin.z - Hinten.z), 2));
-    float finaldistance = 1.f;
-    
-    if(test){
-        if(distanceL == distanceR == distanceO == distanceU == distanceV == distanceH){
-            std::cout<<"Fehler1"<<std::endl;
-
-        }
-
-        if(Links.x == Rechts.x == Oben.x == Unten.x == Vorne.x == Hinten.x){
-            
-        }
-
-        if(distanceL < distanceR){
-            finaldistance = distanceL;
-        }
-        if(distanceR < distanceL){
-            finaldistance = distanceR;
-        }
-        if(distanceO < distanceR){
-            finaldistance = distanceO;
-        }
-        if(distanceU < distanceO){
-            finaldistance = distanceU;
-        }
-        if(distanceV < distanceU){
-            finaldistance = distanceV;
-        }
-        if(distanceH < distanceV){
-            finaldistance = distanceH;
-        }
-        if(finaldistance = 1.f){
-            std::cout<<"Fehler3"<<std::endl;
+    float distanceL = sqrtf(fabsf(ray.origin.x - Links.x)*fabsf(ray.origin.x - Links.x)+ fabsf(ray.origin.y - Links.y)*fabsf(ray.origin.y - Links.y) + fabsf(ray.origin.z - Links.z)*fabsf(ray.origin.z - Links.z));
+    float distanceR = sqrtf(fabsf(ray.origin.x - Rechts.x)*fabsf(ray.origin.x - Rechts.x)+ fabsf(ray.origin.y - Rechts.y)*fabsf(ray.origin.y - Rechts.y) + fabsf(ray.origin.z - Rechts.z)*fabsf(ray.origin.z - Rechts.z));
+    float distanceO = sqrtf(fabsf(ray.origin.x - Oben.x)*fabsf(ray.origin.x - Oben.x)+ fabsf(ray.origin.y - Oben.y)*fabsf(ray.origin.y - Oben.y) + fabsf(ray.origin.z - Oben.z)*fabsf(ray.origin.z - Oben.z));
+    float distanceU = sqrtf(fabsf(ray.origin.x - Unten.x)*fabsf(ray.origin.x - Unten.x)+ fabsf(ray.origin.y - Unten.y)*fabsf(ray.origin.y - Unten.y) + fabsf(ray.origin.z - Unten.z)*fabsf(ray.origin.z - Unten.z));
+    float distanceV = sqrtf(fabsf(ray.origin.x - Vorne.x)*fabsf(ray.origin.x - Vorne.x)+ fabsf(ray.origin.y - Vorne.y)*fabsf(ray.origin.y - Vorne.y) + fabsf(ray.origin.z - Vorne.z)*fabsf(ray.origin.z - Vorne.z));
+    float distanceH = sqrtf(fabsf(ray.origin.x - Hinten.x)*fabsf(ray.origin.x - Hinten.x)+ fabsf(ray.origin.y - Hinten.y)*fabsf(ray.origin.y - Hinten.y) + fabsf(ray.origin.z - Hinten.z)*fabsf(ray.origin.z - Hinten.z));
+    float finaldistance = 100000000.f;
+    std::vector<float> distances{distanceL, distanceR, distanceO, distanceU, distanceV, distanceH};
+    for(int i = 0; i<distances.size(); i++){
+        if(distances[i]!=0.f){
+            if(distances[i] < finaldistance){
+                 finaldistance = distances[i];
+            }
         }
     }
-
-    if(test){
-        finaldistance = 1.f;
-        std::cout<<"Fehler2"<<std::endl;
-    }
-
-    
-
     HitPoint result{test, finaldistance, name_, color_, ray.origin, ray.direction};
     return result;
 }
