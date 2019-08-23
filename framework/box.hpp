@@ -10,7 +10,7 @@
 #include <cmath>
 
 class Box : public Shape{
-    public:
+public:
 
     glm::vec3 min_;
     glm::vec3 max_;

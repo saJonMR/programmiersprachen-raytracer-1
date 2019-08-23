@@ -21,23 +21,23 @@
 class Renderer
 {
 public:
-  Renderer(unsigned w, unsigned h, std::string const& file, Scene my_Scene);
+    Renderer(unsigned w, unsigned h, std::string const& file, Scene my_Scene);
 
-  void render();
-  void write(Pixel const& p);
+    void render();
+    void write(Pixel const& p);
 
-  inline std::vector<Color> const& color_buffer() const
-  {
-    return color_buffer_;
-  }
+    inline std::vector<Color> const& color_buffer() const
+    {
+        return color_buffer_;
+    }
 
 private:
-  unsigned width_;
-  unsigned height_;
-  std::vector<Color> color_buffer_;
-  std::string filename_;
-  PpmWriter ppm_;
-  Scene s_;
+    unsigned width_;
+    unsigned height_;
+    std::vector<Color> color_buffer_;
+    std::string filename_;
+    PpmWriter ppm_;
+    Scene s_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP

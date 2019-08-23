@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include "scene.hpp"
 #include "hitpoint.hpp"
-
+#include "shade.hpp"
 Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
     float dist = ((bildwidth/2)/tan(S.camvec[0]->degree_/2))/180 * M_PI;
     glm::vec3 raydirection (x-bildwidth/2, y-bildheight/2, -dist);
@@ -16,18 +16,30 @@ Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
     float raydist = 5000.f;
     Color c {0.f, 0.f, 0.f};
     float mindistance = 10000;
-    std::shared_ptr<Shape> minvec;
-    std::vector<float> minimum{};
-    for(int i=0; i<S.shapevec.size(); i++){
+    for(int i = 0; i < S.shapevec.size(); i++){
         if(S.shapevec[i]->intersect(Raymond, raydist).cut_){
-        minimum.push_back(S.shapevec[i]->intersect(Raymond, raydist).distance_);
-    }
-    float mindistance = *std::min_element(minimum.begin(), minimum.begin());
-    for(int i=0; i<S.shapevec.size(); i++){
-        if(S.shapevec[i]->intersect(Raymond, raydist).distance_ == mindistance){
-            c = S.shapevec[i]->intersect(Raymond, raydist).color_->ka;
+            for(int j = 0; j < S.shapevec.size(); j++){
+                if(S.shapevec[j]!=S.shapevec[i]){
+                    if(S.shapevec[j]->intersect(Raymond, raydist).cut_){
+                        if(S.shapevec[i]->intersect(Raymond, raydist).distance_ < S.shapevec[j]->intersect(Raymond, raydist).distance_){
+                            c = S.shapevec[i]->intersect(Raymond, raydist).color_->ka;
+                            if(S.shapevec[i]->name_ == "rtoppom"){
+                                std::cout<<"HERETICBURN!!"<<std::endl;
+                            }
+                        }
+                        else{
+                            c = S.shapevec[j]->intersect(Raymond, raydist).color_->ka;
+                            break;
+                        }
+                    }
+                }
+                if(j+1 == S.shapevec.size()){
+                    c = S.shapevec[i]->intersect(Raymond, raydist).color_->ka;
+                }
+            }
         }
     }
+
     return c;
 }
 #endif
