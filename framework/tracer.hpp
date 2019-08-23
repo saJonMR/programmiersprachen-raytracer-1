@@ -8,6 +8,7 @@
 #include "scene.hpp"
 #include "hitpoint.hpp"
 #include "shade.hpp"
+
 Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
     float dist = ((bildwidth/2)/tan(S.camvec[0]->degree_/2))/180 * M_PI;
     glm::vec3 raydirection (x-bildwidth/2, y-bildheight/2, -dist);
@@ -39,7 +40,6 @@ Color tracer(Scene S, int x, int y, int bildwidth, int bildheight){
             }
         }
     }
-
     return c;
 }
 #endif

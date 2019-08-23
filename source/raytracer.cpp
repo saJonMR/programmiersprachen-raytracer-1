@@ -1,4 +1,4 @@
-#include <renderer.hpp>
+#include <renderer.cpp>
 #include <window.hpp>
 
 #include <GLFW/glfw3.h>
@@ -13,15 +13,11 @@
 #include "scene.hpp"
 #include <string>
 #include "scene.cpp"
+
 int main(int argc, char* argv[])
 {
-  
-
   std::string path = "../../source/material.sdf";
   Scene S {createscene(path)};
-
-
-
 
 
   unsigned const image_width = 800;

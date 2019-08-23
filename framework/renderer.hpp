@@ -16,7 +16,6 @@
 #include <glm/glm.hpp>
 #include "scene.hpp"
 #include "hitpoint.hpp"
-#include "tracer.hpp"
 
 class Renderer
 {

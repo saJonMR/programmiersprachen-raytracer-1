@@ -64,7 +64,7 @@ HitPoint Box::intersect(Ray const& ray, float& t){
     float r_z = (max_.z - ray.origin.z)/ray.direction.z;        //max y Ebene Sp
     float p6x = ray.origin.x + r_z * ray.direction.x;
     float p6y = ray.origin.y + r_z * ray.direction.y;
-    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten = {10000,10000,10000};
+    glm::vec3 Links, Rechts, Oben, Unten, Vorne, Hinten;
 
     // Teste der min x, y, z Ebenen
     if(min_.y<=p1y && p1y<=max_.y){
@@ -105,6 +105,7 @@ HitPoint Box::intersect(Ray const& ray, float& t){
             Hinten={p6x, p6y, max_.z};
         }
     }
+
     float distanceL = sqrt(pow((ray.origin.x - Links.x), 2)+ pow((ray.origin.y - Links.y), 2) + pow((ray.origin.z - Links.z), 2));
     float distanceR = sqrt(pow((ray.origin.x - Rechts.x), 2)+ pow((ray.origin.y - Rechts.y), 2) + pow((ray.origin.z - Rechts.z), 2));
     float distanceO = sqrt(pow((ray.origin.x - Oben.x), 2)+ pow((ray.origin.y - Oben.y), 2) + pow((ray.origin.z - Oben.z), 2));
@@ -150,8 +151,6 @@ HitPoint Box::intersect(Ray const& ray, float& t){
         finaldistance = 1.f;
         std::cout<<"Fehler2"<<std::endl;
     }
-
-
 
     HitPoint result{test, finaldistance, name_, color_, ray.origin, ray.direction};
     return result;
