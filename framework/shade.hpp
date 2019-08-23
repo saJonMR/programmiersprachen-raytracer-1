@@ -1,6 +1,9 @@
 //
 // Created by Jonas Roquette on 2019-08-23.
 //
+//
+// Created by Jonas Roquette on 2019-08-23.
+//
 
 #ifndef SHADE_HPP
 #define SHADE_HPP
@@ -39,3 +42,4 @@ Color shade(std::shared_ptr<Shape> Objekt, Ray r, float distance, Scene S){
     return c;
 }
 #endif
+
